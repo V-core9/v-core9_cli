@@ -1,0 +1,56 @@
+{
+  "name": "v-core9_cli",
+  "description": "yup",
+  "version": "0.0.0",
+  "author": " @V-core9",
+  "bin": {
+    "v9": "./bin/run"
+  },
+  "bugs": "https://github.com/V-core9/v-core9_cli/issues",
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.26.0",
+    "@oclif/test": "^1.2.8",
+    "chai": "^4.3.4",
+    "eslint": "^7.32.0",
+    "eslint-config-oclif": "^3.1.2",
+    "globby": "^10.0.2",
+    "mocha": "^5.2.0",
+    "nyc": "^14.1.1",
+    "rimraf": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/V-core9/v-core9_cli",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "v9",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "V-core9/v-core9_cli",
+  "scripts": {
+    "postpack": "rimraf oclif.manifest.json",
+    "posttest": "eslint .",
+    "prepack": "oclif-dev manifest && oclif-dev readme",
+    "test": "nyc mocha --forbid-only \"test/**/*.test.js\"",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "dependencies": {
+    "@oclif/command": "^1.8.13",
+    "@oclif/config": "^1.18.2",
+    "@oclif/plugin-help": "^3.2.17"
+  }
+}
