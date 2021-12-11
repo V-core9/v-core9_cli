@@ -1,44 +1,22 @@
 const { Command, flags } = require('@oclif/command');
 const fs = require('fs');
 
-const repo_list = {
-  'v_to_md5': {
-    repo: 'https://github.com/V-core9/v_to_md5',
-    npm: 'https://www.npmjs.com/package/v_to_md5',
-  },
+const repo_list = require('../../data/repo_list');
 
-  'v_to_sha256': {
-    repo: 'https://github.com/V-core9/v_to_sha256',
-    npm: 'https://www.npmjs.com/package/v_to_sha256',
-  },
 
-  'v_file_system': {
-    repo: 'https://github.com/V-core9/v_file_system',
-    npm: 'https://www.npmjs.com/package/v_fs',
-  },
-
-  'v_scrolls': {
-    repo: 'https://github.com/V-core9/v_scrolls',
-    npm: 'https://www.npmjs.com/package/v_scrolls',
-  },
-
-  'v_database': {
-    repo: 'https://github.com/V-core9/v_database',
-    npm: 'https://www.npmjs.com/package/v_database',
-  },
-
-  'v_execute': {
-    repo: 'https://github.com/V-tech-tools/v_execute',
-    npm: 'https://www.npmjs.com/package/v_execute',
-  },
-
+const config = {
+  dir: {
+    cfg_dir: process.env.home + '/.v9',
+    cfg_file: process.env.home + '/.v9/config.json',
+    projects: process.env.home + '/.v9/projects',
+  }
 };
 
-config_dir_check = async () => {
+configDirCheck = async () => {
 
   var dir_status = false;
   try {
-    fs.readdirSync(process.env.home + '/.v9', 'utf8');
+    fs.readdirSync(config.dir.cfg_dir, 'utf8');
     dir_status = true;
   } catch (e) {
     //console.log(e);
@@ -49,11 +27,11 @@ config_dir_check = async () => {
   return dir_status;
 };
 
-config_file_check = async () => {
+configFileCheck = async () => {
 
   var file_status = false;
   try {
-    fs.readFileSync(process.env.home + '/.v9/config.json', 'utf8');
+    fs.readFileSync(config.dir.cfg_file, 'utf8');
     file_status = true;
   } catch (e) {
     //console.log(e);
@@ -64,11 +42,11 @@ config_file_check = async () => {
   return file_status;
 };
 
-repo_dirs_check = async () => {
+repoDirsCheck = async () => {
 
   var dir_status = false;
   try {
-    fs.readdirSync(process.env.home + '/.v9_repos');
+    fs.readdirSync(config.dir.projects);
     dir_status = true;
   } catch (e) {
     //console.log(e);
@@ -79,12 +57,40 @@ repo_dirs_check = async () => {
   return dir_status;
 };
 
+repoListCheck = async () => {
+
+  //console.log(repo_list);
+  var none_found = true;
+
+  var projects = null;
+  try {
+    projects = fs.readdirSync(config.dir.projects);
+  } catch (e) {
+    //console.log(e);
+  }
+
+
+  if (projects !== null) {
+    for (var i = 0; i < projects.length; i++) {
+      if (Object.keys(repo_list).indexOf(projects[i]) > -1) {
+        console.log(repo_list[projects[i]]);
+        none_found = false;
+      }
+    }
+  }
+
+  if (none_found === true) console.log('🧱 Missing All Projects. 🔻');
+
+  return projects;
+};
+
 
 class CliStatusCommand extends Command {
   async run() {
     const { flags } = this.parse(CliStatusCommand);
     const checklist = flags.checklist || false;
     this.log(`🩺 v9_cli system check triggered for [ -c >> ${checklist} ]`);
+
 
     var check_array = null;
 
@@ -93,24 +99,31 @@ class CliStatusCommand extends Command {
       check_array = checklist.split(' ');
 
       if (check_array.indexOf('cfg_dir') > -1) {
-        config_dir_check();
+        configDirCheck();
       }
 
       if (check_array.indexOf('cfg_file') > -1) {
-        config_file_check();
+        configFileCheck();
       }
 
       if (check_array.indexOf('repo_dir') > -1) {
-        repo_dirs_check();
+        repoDirsCheck();
+      }
+
+      if (check_array.indexOf('repo_list') > -1) {
+        repoListCheck();
       }
 
     }
 
-    if (checklist === false){
-      await config_dir_check();
-      await config_file_check();
-      await repo_dirs_check();
+
+    if (checklist === false) {
+      await configDirCheck();
+      await configFileCheck();
+      await repoDirsCheck();
+      await repoListCheck();
     }
+
 
   }
 }
@@ -120,10 +133,16 @@ CliStatusCommand.description = `Check the status of CLI tool and system.
 Look for into the config directory and config file.
 Check the status of the repos directory.
 Provide data about repos and their status.
+
+Flags Additional Options:
+  -c, --checklist  >>  [ "cfg_dir", "cfg_file", "repo_dir" ]
+
+Example:
+  v9 cli_status -c='cfg_dir cfg_file repo_dir'
 `;
 
 CliStatusCommand.flags = {
-  checklist: flags.string({ char: 'c', description: 'Checklist of things to verify. [ "cfg_dir", "cfg_file", "repo_dir" ]' }),
+  checklist: flags.string({ char: 'c', description: 'Check the CLI system status, will check all if empty.' }),
 };
 
 module.exports = CliStatusCommand;

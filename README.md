@@ -34,18 +34,20 @@ USAGE
 
 ## `v9 cli_status`
 
-Describe the command here
+Check the status of CLI tool and system.
 
 ```
 USAGE
   $ v9 cli_status
 
 OPTIONS
-  -n, --name=name  name to print
+  -c, --checklist=checklist  Checklist of things to verify. [ "cfg_dir", "cfg_file", "repo_dir" ]
 
 DESCRIPTION
   ...
-  Extra documentation goes here
+  Look for into the config directory and config file.
+  Check the status of the repos directory.
+  Provide data about repos and their status.
 ```
 
 _See code: [src/commands/cli_status.js](https://github.com/V-core9/v-core9_cli/blob/v0.0.0/src/commands/cli_status.js)_
