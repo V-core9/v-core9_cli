@@ -28,8 +28,27 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`v9 cli_status`](#v9-cli_status)
 * [`v9 hello`](#v9-hello)
 * [`v9 help [COMMAND]`](#v9-help-command)
+
+## `v9 cli_status`
+
+Describe the command here
+
+```
+USAGE
+  $ v9 cli_status
+
+OPTIONS
+  -n, --name=name  name to print
+
+DESCRIPTION
+  ...
+  Extra documentation goes here
+```
+
+_See code: [src/commands/cli_status.js](https://github.com/V-core9/v-core9_cli/blob/v0.0.0/src/commands/cli_status.js)_
 
 ## `v9 hello`
 
