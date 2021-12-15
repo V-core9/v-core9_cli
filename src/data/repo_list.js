@@ -11,7 +11,7 @@ const repo_list = {
 
   'v_file_system': {
     repo: 'https://github.com/V-core9/v_file_system',
-    npm: 'https://www.npmjs.com/package/v_fs',
+    npm: 'https://www.npmjs.com/package/v_file_system',
   },
 
   'v_scrolls': {
