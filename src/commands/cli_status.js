@@ -1,82 +1,41 @@
 const { Command, flags } = require('@oclif/command');
-const fs = require('fs');
+const v_fs = require('v_file_system');
 
 const repo_list = require('../../data/repo_list');
 
+const root_dir = process.env.home + '/.v9';
 
 const config = {
   dir: {
-    cfg_dir: process.env.home + '/.v9',
-    cfg_file: process.env.home + '/.v9/config.json',
-    projects: process.env.home + '/.v9/projects',
+    cfg_dir: root_dir,
+    cfg_file: root_dir + '/config.json',
+    projects: root_dir + '/projects',
   }
 };
 
-configDirCheck = async () => {
-
-  var dir_status = false;
-  try {
-    fs.readdirSync(config.dir.cfg_dir, 'utf8');
-    dir_status = true;
-  } catch (e) {
-    //console.log(e);
-  }
-
-  console.log(dir_status === true ? '📂 Found Root Config Directory. ✅' : '📂 Missing Root Config Directory. 🔻');
-
-  return dir_status;
-};
-
-configFileCheck = async () => {
-
-  var file_status = false;
-  try {
-    fs.readFileSync(config.dir.cfg_file, 'utf8');
-    file_status = true;
-  } catch (e) {
-    //console.log(e);
-  }
-
-  console.log(file_status === true ? '📑 Found Root Config File. ✅' : '📑 Missing Root Config File. 🔻');
-
-  return file_status;
-};
-
-repoDirsCheck = async () => {
-
-  var dir_status = false;
-  try {
-    fs.readdirSync(config.dir.projects);
-    dir_status = true;
-  } catch (e) {
-    //console.log(e);
-  }
-
-  console.log(dir_status === true ? '🧱 Found Repo Directory. ✅' : '🧱 Missing Repo Directory. 🔻');
-
-  return dir_status;
-};
 
 repoListCheck = async () => {
 
-  //console.log(repo_list);
-  var none_found = true;
-
-  var projects = null;
-  try {
-    projects = fs.readdirSync(config.dir.projects);
-  } catch (e) {
-    //console.log(e);
+  for (var i = 0; i < Object.keys(repo_list).length; i++){
+    repo_list[Object.keys(repo_list)[i]].cloned_status = false;
   }
 
+  var none_found = true;
 
-  if (projects !== null) {
-    for (var i = 0; i < projects.length; i++) {
+  var projects = await v_fs.listDir(config.dir.projects);
+
+  if (projects.length !== 0) {
+    for (let i = 0; i < projects.length; i++) {
       if (Object.keys(repo_list).indexOf(projects[i]) > -1) {
-        console.log(repo_list[projects[i]]);
+        repo_list[projects[i]].cloned_status = true;
         none_found = false;
       }
     }
+  }
+
+  console.log('\n🏭 Projects dirs status:');
+  for (let i = 0; i < Object.keys(repo_list).length; i++){
+    console.log('  '+(repo_list[Object.keys(repo_list)[i]].cloned_status === true ? '🟩' : '🔻')+' '+Object.keys(repo_list)[i] );
   }
 
   if (none_found === true) console.log('🧱 Missing All Projects. 🔻');
@@ -88,40 +47,32 @@ repoListCheck = async () => {
 class CliStatusCommand extends Command {
   async run() {
     const { flags } = this.parse(CliStatusCommand);
-    const checklist = flags.checklist || false;
-    this.log(`🩺 v9_cli system check triggered for [ -c >> ${checklist} ]`);
+    const checklist = flags.checklist || 'cfg_dir cfg_file repo_dir repo_list';
+    this.log(`\n🩺 v9_cli system check triggered for [ -c >> ${checklist} ]`);
 
 
     var check_array = null;
 
     if (typeof checklist === 'string') {
-      console.log(checklist);
+
       check_array = checklist.split(' ');
 
       if (check_array.indexOf('cfg_dir') > -1) {
-        configDirCheck();
+        console.log('\n📂 Checking Root Config Directory : '+(await v_fs.listDir(config.dir.cfg_dir) !== false ? '🟩 Found' : '🔻 Missing'));
       }
 
       if (check_array.indexOf('cfg_file') > -1) {
-        configFileCheck();
+        console.log('\n📑 Checking Root Config File : '+(await v_fs.read(config.dir.cfg_file) !== false ? '🟩 Found' : '🔻 Missing'));
       }
 
       if (check_array.indexOf('repo_dir') > -1) {
-        repoDirsCheck();
+        console.log('\n🧱 Checking Projects Directory : '+(await v_fs.listDir(config.dir.projects) !== false ? '🟩 Found' : '🔻 Missing'));
       }
 
       if (check_array.indexOf('repo_list') > -1) {
         repoListCheck();
       }
 
-    }
-
-
-    if (checklist === false) {
-      await configDirCheck();
-      await configFileCheck();
-      await repoDirsCheck();
-      await repoListCheck();
     }
 
 
