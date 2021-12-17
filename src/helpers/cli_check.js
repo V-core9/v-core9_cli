@@ -31,15 +31,19 @@ const cliCheck = {
 
     return projects;
   },
+
   cfgDir: async () => {
     return (await v_fs.listDir(config.dir.cfg_d) !== false ? '🟩 Found' : '🔻 Missing');
   },
+
   cfgFile: async () => {
     return (await v_fs.read(config.dir.cfg_f) !== false ? '🟩 Found' : '🔻 Missing');
   },
+
   projectsDir: async () => {
     return (await v_fs.listDir(config.dir.projects) !== false ? '🟩 Found' : '🔻 Missing');
   },
+
 };
 
 module.exports = cliCheck;
