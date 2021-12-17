@@ -28,36 +28,10 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`v9 cli_status`](#v9-cli_status)
 * [`v9 clone`](#v9-clone)
 * [`v9 hello`](#v9-hello)
 * [`v9 help [COMMAND]`](#v9-help-command)
-
-## `v9 cli_status`
-
-Check the status of CLI tool and system.
-
-```
-USAGE
-  $ v9 cli_status
-
-OPTIONS
-  -c, --checklist=checklist  Check the CLI system status, will check all if empty.
-
-DESCRIPTION
-  ...
-  Look for into the config directory and config file.
-  Check the status of the repos directory.
-  Provide data about repos and their status.
-
-  Flags Additional Options:
-    -c, --checklist  >>  [ "cfg_dir", "cfg_file", "repo_dir" ]
-
-  Example:
-    v9 cli_status -c='cfg_dir cfg_file repo_dir'
-```
-
-_See code: [src/commands/cli_status.js](https://github.com/V-core9/v-core9_cli/blob/v0.0.0/src/commands/cli_status.js)_
+* [`v9 status`](#v9-status)
 
 ## `v9 clone`
 
@@ -111,4 +85,30 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.17/src/commands/help.ts)_
+
+## `v9 status`
+
+Check the status of CLI tool and system.
+
+```
+USAGE
+  $ v9 status
+
+OPTIONS
+  -c, --checklist=checklist  Check the CLI system status, will check all if empty.
+
+DESCRIPTION
+  ...
+  Look for into the config directory and config file.
+  Check the status of the repos directory.
+  Provide data about repos and their status.
+
+  Flags Additional Options:
+    -c, --checklist  >>  [ "cfg_dir", "cfg_file", "repo_dir" ]
+
+  Example:
+    v9 cli_status -c='cfg_dir cfg_file repo_dir'
+```
+
+_See code: [src/commands/status.js](https://github.com/V-core9/v-core9_cli/blob/v0.0.0/src/commands/status.js)_
 <!-- commandsstop -->

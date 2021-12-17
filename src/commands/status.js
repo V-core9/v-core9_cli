@@ -2,9 +2,9 @@ const { Command, flags } = require('@oclif/command');
 
 const cliCheck = require('../helpers/cli_check');
 
-class CliStatusCommand extends Command {
+class StatusCommand extends Command {
   async run() {
-    const { flags } = this.parse(CliStatusCommand);
+    const { flags } = this.parse(StatusCommand);
     const checklist = flags.checklist || 'cfg_dir cfg_file repo_dir repo_list';
     this.log(`\n🩺 v9_cli system check triggered for [ -c >> ${checklist} ]`);
 
@@ -29,7 +29,7 @@ class CliStatusCommand extends Command {
   }
 }
 
-CliStatusCommand.description = `Check the status of CLI tool and system.
+StatusCommand.description = `Check the status of CLI tool and system.
 ...
 Look for into the config directory and config file.
 Check the status of the repos directory.
@@ -42,8 +42,8 @@ Example:
   v9 cli_status -c='cfg_dir cfg_file repo_dir'
 `;
 
-CliStatusCommand.flags = {
+StatusCommand.flags = {
   checklist: flags.string({ char: 'c', description: 'Check the CLI system status, will check all if empty.' }),
 };
 
-module.exports = CliStatusCommand;
+module.exports = StatusCommand;

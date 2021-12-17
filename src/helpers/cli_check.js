@@ -1,11 +1,6 @@
-
 const v_fs = require('v_file_system');
-
 const repo_list = require('../data/repo_list');
-
-
 const config = require('../config/');
-
 
 const cliCheck = {
   projects: async () => {
@@ -36,16 +31,12 @@ const cliCheck = {
 
     return projects;
   },
-
   cfgDir: async () => {
     return (await v_fs.listDir(config.dir.cfg_d) !== false ? '🟩 Found' : '🔻 Missing');
   },
-
-
   cfgFile: async () => {
     return (await v_fs.read(config.dir.cfg_f) !== false ? '🟩 Found' : '🔻 Missing');
   },
-
   projectsDir: async () => {
     return (await v_fs.listDir(config.dir.projects) !== false ? '🟩 Found' : '🔻 Missing');
   },

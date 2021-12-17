@@ -29,6 +29,21 @@ const repo_list = {
     npm: 'https://www.npmjs.com/package/v_execute',
   },
 
+  'v-core9_cli': {
+    repo: 'https://github.com/V-core9/v-core9_cli',
+    npm: '#',
+  },
+
+  'v_database_cli': {
+    repo: 'https://github.com/V-core9/v_database_cli',
+    npm: 'https://www.npmjs.com/package/v_database_cli',
+  },
+
+  'v_is_empty_value': {
+    repo: 'https://github.com/V-core9/v_is_empty_value',
+    npm: 'https://www.npmjs.com/package/v_is_empty_value',
+  },
+
 };
 
 
