@@ -35,7 +35,13 @@ const repoList = {
   v_is_empty_value: {
     repo: 'https://github.com/V-core9/v_is_empty_value',
     npm: 'https://www.npmjs.com/package/v_is_empty_value'
-  }
+  },
+
+  v_rifier: {
+    repo: 'https://github.com/V-core9/v_rifier',
+    npm: 'https://www.npmjs.com/package/v_rifier',
+  },
+
 };
 
 module.exports = repoList;
