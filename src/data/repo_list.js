@@ -42,6 +42,11 @@ const repoList = {
     npm: 'https://www.npmjs.com/package/v_rifier',
   },
 
+  v_database_electron: {
+    repo: 'https://github.com/V-core9/v_database_electron',
+    npm: '#'
+  },
+
 };
 
 module.exports = repoList;
