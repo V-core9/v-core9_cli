@@ -27,8 +27,8 @@ const cliCheck = {
       }
     }
 
+    console.log('\n🏭 Projects dirs status:');
     for (let i = 0; i < repoKeys.length; i++) {
-      console.log('\n🏭 Projects dirs status:');
       var title = repoKeys[i];
       try {
         process.chdir(config.dir.projects+'/'+repoKeys[i]);
